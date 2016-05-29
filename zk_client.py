@@ -8,12 +8,15 @@ import os
 import socket 
 
 def main():
-    mode=os.environ['MODE']
-    if mode ==  'MASTER':
-	print 'master'
-    else: 
-	print 'slave'
+    mode_check = os.getenv('MODE',0)
+    
+    if (mode_check == 0):
+        mode=os.environ['MODE']
+    else:
+        print 'slave'
+    
     sys.exit(0)	
+    
     local_ip=socket.gethostbyname(socket.gethostname())
     zk = zc.zk.ZooKeeper(os.environ['ZK_HOST']+':2181')
     zk.register('/perfmeter/slaves', (local_ip))
